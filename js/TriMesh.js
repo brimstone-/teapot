@@ -144,12 +144,12 @@ class TriMesh
     */
     drawTriangles() {
         gl.bindBuffer(gl.ARRAY_BUFFER, this.VertexPositionBuffer);
-        gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, this.VertexPositionBuffer.itemSize, 
+        gl.vertexAttribPointer(shaderProgramMesh.vertexPositionAttribute, this.VertexPositionBuffer.itemSize, 
                          gl.FLOAT, false, 0, 0);
 
         // Bind normal buffer
         gl.bindBuffer(gl.ARRAY_BUFFER, this.VertexNormalBuffer);
-        gl.vertexAttribPointer(shaderProgram.vertexNormalAttribute, 
+        gl.vertexAttribPointer(shaderProgramMesh.vertexNormalAttribute, 
                            this.VertexNormalBuffer.itemSize,
                            gl.FLOAT, false, 0, 0);   
     
@@ -163,12 +163,12 @@ class TriMesh
     */
     drawEdges() {
         gl.bindBuffer(gl.ARRAY_BUFFER, this.VertexPositionBuffer);
-        gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, this.VertexPositionBuffer.itemSize, 
+        gl.vertexAttribPointer(shaderProgramMesh.vertexPositionAttribute, this.VertexPositionBuffer.itemSize, 
                          gl.FLOAT, false, 0, 0);
 
         // Bind normal buffer
         gl.bindBuffer(gl.ARRAY_BUFFER, this.VertexNormalBuffer);
-        gl.vertexAttribPointer(shaderProgram.vertexNormalAttribute, 
+        gl.vertexAttribPointer(shaderProgramMesh.vertexNormalAttribute, 
                            this.VertexNormalBuffer.itemSize,
                            gl.FLOAT, false, 0, 0);   
     

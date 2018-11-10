@@ -23,15 +23,23 @@ function draw() {
     mvPushMatrix();
     mat4.rotateY(mvMatrix, mvMatrix, degToRad(eulerY));
     mat4.multiply(mvMatrix,vMatrix,mvMatrix);
-    setMatrixUniforms();
-    setLightUniforms(lightPosition,lAmbient,lDiffuse,lSpecular);
-    setMaterialUniforms(shininess,kAmbient,kTerrainDiffuse,kSpecular);
 
     // setupShaders_Mesh();
-    // gl.useProgram(shaderProgramMesh);
+    gl.useProgram(shaderProgramMesh);
+
+    setMatrixUniformsMesh();
+    setLightUniformsMesh(lightPosition,lAmbient,lDiffuse,lSpecular);
+    setMaterialUniformsMesh(shininess,kAmbient,kTerrainDiffuse,kSpecular);
+
     myMesh.drawTriangles();
+
     // setupShaders_Cube();
-    // gl.useProgram(shaderProgramCube);
+    gl.useProgram(shaderProgramCube);
+
+    setMatrixUniformsCube();
+    setLightUniformsCube(lightPosition,lAmbient,lDiffuse,lSpecular);
+    setMaterialUniformsCube(shininess,kAmbient,kTerrainDiffuse,kSpecular);
+
     drawCube();
 
     mvPopMatrix();
@@ -45,9 +53,9 @@ function draw() {
  function startup() {
   canvas = document.getElementById("myGLCanvas");
   gl = createGLContext(canvas);
-  // setupShaders_Mesh();
-  // setupShaders_Cube();
-  setupShaders();
+  setupShadersMesh();
+  setupShadersCube();
+  //setupShaders();
   setupBuffers();
   setupTextures();
   //setupMesh("obj/cow.obj");

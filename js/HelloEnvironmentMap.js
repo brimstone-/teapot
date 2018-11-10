@@ -137,23 +137,23 @@ function drawCube(){
   // array, setting attributes, and pushing it to GL.
 
   gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexBuffer);
-  gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, 3, gl.FLOAT, false, 0, 0);
+  gl.vertexAttribPointer(shaderProgramCube.vertexPositionAttribute, 3, gl.FLOAT, false, 0, 0);
 
   // Set the texture coordinates attribute for the vertices.
 
   gl.bindBuffer(gl.ARRAY_BUFFER, cubeTCoordBuffer);
-  gl.vertexAttribPointer(shaderProgram.texCoordAttribute, 2, gl.FLOAT, false, 0, 0);
+  gl.vertexAttribPointer(shaderProgramCube.texCoordAttribute, 2, gl.FLOAT, false, 0, 0);
 
   // Specify the texture to map onto the faces.
 
   gl.activeTexture(gl.TEXTURE0);
   gl.bindTexture(gl.TEXTURE_CUBE_MAP, cubeMap);
-  gl.uniform1i(gl.getUniformLocation(shaderProgram, "uSampler"), 0);
+  gl.uniform1i(gl.getUniformLocation(shaderProgramCube, "uSampler"), 0);
 
   // Draw the cube.
 
   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, cubeTriIndexBuffer);
-  setMatrixUniforms();
+  setMatrixUniformsCube();
   gl.drawElements(gl.TRIANGLES, 36, gl.UNSIGNED_SHORT, 0);
 }
 
