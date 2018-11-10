@@ -87,23 +87,35 @@ function uploadNormalMatrixToShaderCube() {
 
 //----------------------------------------------------------------------------------
 /**
- * Pushes matrix onto modelview matrix stack
+ * Pushes matrix or lightPosition onto respective stack
  */
 function mvPushMatrix() {
   var copy = mat4.clone(mvMatrix);
   mvMatrixStack.push(copy);
 }
 
+function pushLightPosition() {
+  var copy = vec3.clone(lightPosition);
+  lightPositionStack.push(copy);
+}
+
 
 //----------------------------------------------------------------------------------
 /**
- * Pops matrix off of modelview matrix stack
+ * Pops matrix or lightPosition onto respective stack
  */
 function mvPopMatrix() {
   if (mvMatrixStack.length == 0) {
     throw "Invalid popMatrix!";
   }
   mvMatrix = mvMatrixStack.pop();
+}
+
+function popLightPosition() {
+  if (lightPositionStack.length == 0) {
+    throw "Invalid popLightPosition!";
+  }
+  lightPosition = lightPositionStack.pop();
 }
 
 //----------------------------------------------------------------------------------

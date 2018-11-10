@@ -42,42 +42,10 @@ function loadShaderFromDOM(id) {
   return shader;
 }
 
-// function setupShaders() {
-//   vertexShader = loadShaderFromDOM("shader-vs-cube");
-//   fragmentShader = loadShaderFromDOM("shader-fs-cube");
-
-//   shaderProgram = gl.createProgram();
-//   gl.attachShader(shaderProgram, vertexShader);
-//   gl.attachShader(shaderProgram, fragmentShader);
-//   gl.linkProgram(shaderProgram);
-
-//   if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
-//     alert("Failed to setup shaders");
-//   }
-
-//   gl.useProgram(shaderProgram);
-
-//   shaderProgram.vertexPositionAttribute = gl.getAttribLocation(shaderProgram, "aVertexPosition");
-//   gl.enableVertexAttribArray(shaderProgram.vertexPositionAttribute);
-
-//   shaderProgram.vertexNormalAttribute = gl.getAttribLocation(shaderProgram, "aVertexNormal");
-//   gl.enableVertexAttribArray(shaderProgram.vertexNormalAttribute);
-
-//   shaderProgram.mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");
-//   shaderProgram.pMatrixUniform = gl.getUniformLocation(shaderProgram, "uPMatrix");
-//   shaderProgram.nMatrixUniform = gl.getUniformLocation(shaderProgram, "uNMatrix");
-//   shaderProgram.uniformLightPositionLoc = gl.getUniformLocation(shaderProgram, "uLightPosition");
-//   shaderProgram.uniformAmbientLightColorLoc = gl.getUniformLocation(shaderProgram, "uAmbientLightColor");
-//   shaderProgram.uniformDiffuseLightColorLoc = gl.getUniformLocation(shaderProgram, "uDiffuseLightColor");
-//   shaderProgram.uniformSpecularLightColorLoc = gl.getUniformLocation(shaderProgram, "uSpecularLightColor");
-//   shaderProgram.uniformShininessLoc = gl.getUniformLocation(shaderProgram, "uShininess");
-//   shaderProgram.uniformAmbientMaterialColorLoc = gl.getUniformLocation(shaderProgram, "uKAmbient");
-//   shaderProgram.uniformDiffuseMaterialColorLoc = gl.getUniformLocation(shaderProgram, "uKDiffuse");
-//   shaderProgram.uniformSpecularMaterialColorLoc = gl.getUniformLocation(shaderProgram, "uKSpecular");
-
-//   console.log("Shaders succesfully set up.");
-// }
-
+//----------------------------------------------------------------------------------
+/**
+ * Setup the fragment and vertex shaders for the mesh model
+ */
 function setupShadersMesh() {
   vertexShader = loadShaderFromDOM("shader-vs-mesh");
   fragmentShader = loadShaderFromDOM("shader-fs-mesh");
@@ -88,7 +56,7 @@ function setupShadersMesh() {
   gl.linkProgram(shaderProgramMesh);
 
   if (!gl.getProgramParameter(shaderProgramMesh, gl.LINK_STATUS)) {
-    alert("Failed to setup shaders");
+    alert("Failed to setup mesh shaders");
   }
 
   gl.useProgram(shaderProgramMesh);
@@ -111,12 +79,12 @@ function setupShadersMesh() {
   shaderProgramMesh.uniformDiffuseMaterialColorLoc = gl.getUniformLocation(shaderProgramMesh, "uKDiffuse");
   shaderProgramMesh.uniformSpecularMaterialColorLoc = gl.getUniformLocation(shaderProgramMesh, "uKSpecular");
 
-  console.log("Shaders succesfully set up.");
+  console.log("Mesh shaders succesfully set up.");
 }
 
 //----------------------------------------------------------------------------------
 /**
- * Setup the fragment and vertex shaders
+ * Setup the fragment and vertex shaders for the cubemap
  */
 function setupShadersCube() {
   vertexShader = loadShaderFromDOM("shader-vs-cube");
@@ -128,7 +96,7 @@ function setupShadersCube() {
   gl.linkProgram(shaderProgramCube);
 
   if (!gl.getProgramParameter(shaderProgramCube, gl.LINK_STATUS)) {
-    alert("Failed to setup shaders");
+    alert("Failed to cube setup shaders");
   }
 
   gl.useProgram(shaderProgramCube);
@@ -142,4 +110,6 @@ function setupShadersCube() {
   shaderProgramCube.mvMatrixUniform = gl.getUniformLocation(shaderProgramCube, "uMVMatrix");
   shaderProgramCube.pMatrixUniform = gl.getUniformLocation(shaderProgramCube, "uPMatrix");
   shaderProgramCube.nMatrixUniform = gl.getUniformLocation(shaderProgramCube, "uNMatrix");
+
+  console.log("Cube shaders succesfully set up.");
 }

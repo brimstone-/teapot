@@ -162,7 +162,7 @@ function drawCube(){
  * Asynchronously read a server-side text file
  */
 function asyncGetFile_Map(url, face) {
-  console.log("Getting image");
+  console.log("Getting image: " + url + " on face: " + face);
   return new Promise((resolve, reject) => {
     cubeImages[face] = new Image();
     cubeImages[face].onload = () => resolve({url, status: 'ok'});
@@ -197,13 +197,15 @@ function setupPromise(filename, face) {
 function setupTextures() {
 
   cubeMap = gl.createTexture();
-  setupPromise("textures/pos-z.png", 0);
-  setupPromise("textures/neg-z.png", 1);
-  setupPromise("textures/pos-y.png", 2);
-  setupPromise("textures/neg-y.png", 3);
-  setupPromise("textures/pos-x.png", 4);
-  setupPromise("textures/neg-x.png", 5);
 
+  var path = "textures/street";
+
+  setupPromise(`${path}/posz.jpg`, 0);
+  setupPromise(`${path}/negz.jpg`, 1);
+  setupPromise(`${path}/posy.jpg`, 2);
+  setupPromise(`${path}/negy.jpg`, 3);
+  setupPromise(`${path}/posx.jpg`, 4);
+  setupPromise(`${path}/negx.jpg`, 5);
 }
 
 //----------------------------------------------------------------------------------
@@ -213,7 +215,6 @@ function setupTextures() {
  * @param {Number} face Which face of the cubeMap to add texture to
  */
 function handleTextureLoaded(image, face) {
-
   console.log("handleTextureLoaded, image = " + image);
   texturesLoaded++;
 

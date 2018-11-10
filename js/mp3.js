@@ -17,14 +17,18 @@ function draw() {
   // Then generate the lookat matrix and initialize the view matrix to that view
   mat4.lookAt(vMatrix,eyePt,viewPt,up);
 
-  //Draw
-  //ADD an if statement to prevent early drawing of myMesh or cubemap
+  // Prevent early drawing of myMesh or cubemap
   if (myMesh.loaded() && (texturesLoaded == 6)) {
+    // Push values so that things don't rotate every draw unless keyboard is modifying values
     mvPushMatrix();
+    pushLightPosition();
+
+    // Apply rotations
     mat4.rotateY(mvMatrix, mvMatrix, degToRad(eulerY));
+    vec3.rotateY(lightPosition, lightPosition, vec3.fromValues(0,0,0), degToRad(eulerY));
     mat4.multiply(mvMatrix,vMatrix,mvMatrix);
 
-    // setupShaders_Mesh();
+    // Draw mesh
     gl.useProgram(shaderProgramMesh);
 
     setMatrixUniformsMesh();
@@ -33,7 +37,7 @@ function draw() {
 
     myMesh.drawTriangles();
 
-    // setupShaders_Cube();
+    // Draw cube
     gl.useProgram(shaderProgramCube);
 
     setMatrixUniformsCube();
@@ -42,7 +46,9 @@ function draw() {
 
     drawCube();
 
+    // Pop values so that things don't rotate every draw unless keyboard is modifying values
     mvPopMatrix();
+    popLightPosition();
   }
 }
 
@@ -55,10 +61,8 @@ function draw() {
   gl = createGLContext(canvas);
   setupShadersMesh();
   setupShadersCube();
-  //setupShaders();
   setupBuffers();
   setupTextures();
-  //setupMesh("obj/cow.obj");
   setupMesh("obj/teapot.obj");
   gl.clearColor(0.0, 0.0, 0.0, 1.0);
   gl.enable(gl.DEPTH_TEST);
@@ -76,20 +80,20 @@ function handleKeyDown(event) {
   currentlyPressedKeys[event.key] = true;
   if (currentlyPressedKeys["a"]) {
     // key A
-    eulerY+= 1;
+    eulerY += 1;
   } else if (currentlyPressedKeys["d"]) {
     // key D
-    eulerY-= 1;
+    eulerY -= 1;
   }
 
   if (currentlyPressedKeys["ArrowUp"]){
     // Up cursor key
     event.preventDefault();
-    eyePt[2]-= 0.1;
+    eyePt[2] -= 0.1;
   } else if (currentlyPressedKeys["ArrowDown"]){
     event.preventDefault();
     // Down cursor key
-    eyePt[2]+= 0.1;
+    eyePt[2] += 0.1;
   }
 }
 
@@ -97,26 +101,6 @@ function handleKeyUp(event) {
   //console.log("Key up ", event.key, " code ", event.code);
   currentlyPressedKeys[event.key] = false;
 }
-
-//-------------------------------------------------------------------------
-/**
- * Update the rotation variable when a key is pressed.
- * @param {Event} event Specifies which key is being pressed
- */
-// function handleKeyDown(event) {
-//     event.preventDefault();
-
-//     if (event["key"] == "ArrowLeft") {
-//         yAngle -= 0.03;
-//     } else if (event["key"] == "ArrowRight") {
-//         yAngle += 0.03;
-//     }
-//     // else if (event["key"] == "ArrowUp") {
-//     //     xAngle -= 0.03;
-//     // } else if (event ["key"] == "ArrowDown") {
-//     //     xAngle += 0.03;
-//     // }
-// }
 
 //----------------------------------------------------------------------------------
 /**

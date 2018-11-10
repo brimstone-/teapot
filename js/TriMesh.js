@@ -289,7 +289,7 @@ class TriMesh
                 this.nBuffer[3*v1+j]+=n[j];
                 this.nBuffer[3*v2+j]+=n[j];
                 this.nBuffer[3*v3+j]+=n[j];
-            }              
+            }
         }
 
         for(var i=0;i<this.numNormals;i++) {
@@ -299,7 +299,7 @@ class TriMesh
             vec3.normalize(n,n);
             this.nBuffer[3*i] = n[0];
             this.nBuffer[3*i+1]=n[1];
-            this.nBuffer[3*i+2]=n[2];  
+            this.nBuffer[3*i+2]=n[2];
         }
     }    
 }

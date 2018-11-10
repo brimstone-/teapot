@@ -38,7 +38,13 @@ var viewPt = vec3.fromValues(0.0,0.0,0.0);
 
 //Light parameters
 /** @global Light position in VIEW coordinates */
-var lightPosition = [1,1,1];
+var lightPosition = [20,20,20];
+// rotate the light position so the lighting sort of visually makes sense in the context
+// of the cubemap I chose
+vec3.rotateY(lightPosition, lightPosition, vec3.fromValues(0,0,0), Math.PI);
+/** @global The lightPosition stack for hierarchical modeling */
+var lightPositionStack = [];
+
 /** @global Ambient light color/intensity for Phong reflection */
 var lAmbient = [0,0,0];
 /** @global Diffuse light color/intensity for Phong reflection */
@@ -50,7 +56,8 @@ var lSpecular =[0,0,0];
 /** @global Ambient material color/intensity for Phong reflection */
 var kAmbient = [1.0,1.0,1.0];
 /** @global Diffuse material color/intensity for Phong reflection */
-var kTerrainDiffuse = [205.0/255.0,163.0/255.0,63.0/255.0];
+//var kTerrainDiffuse = [205.0/255.0,163.0/255.0,63.0/255.0];
+var kTerrainDiffuse = [50.0/255.0,230.0/255.0,255.0/255.0];
 /** @global Specular material color/intensity for Phong reflection */
 var kSpecular = [0.0,0.0,0.0];
 /** @global Shininess exponent for Phong reflection */
@@ -62,7 +69,7 @@ var kEdgeWhite = [1.0,1.0,1.0];
 
 
 //Model parameters
-var eulerY=0;
+var eulerY=180;
 
 // cubemap
 var vertexPositionBuffer;

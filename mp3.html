@@ -99,7 +99,7 @@
         vColor = vec4(((uAmbientLightColor*uKAmbient)
                     + (uDiffuseLightColor*uKDiffuse) * diffuseLightWeightning
                     + ((uSpecularLightColor*uKSpecular) * specularLightWeightning)),1.0);
-                    
+
         gl_Position = uPMatrix*uMVMatrix*vec4(aVertexPosition, 1.0);
         //vColor=vec4(normalEye,1);
         }
@@ -117,13 +117,13 @@
     <script src="js/webgl-utils.js"></script>
     <script src="js/TriMesh.js"></script>
     <script src="js/vars.js"></script> 
-    <script src="js/startup.js"></script> 
+    <script src="js/gl.js"></script> 
     <script src="js/shaders.js"></script>
-    <script src="js/HelloMesh.js"></script> 
-    <script src="js/HelloEnvironmentMap.js"></script>
+    <script src="js/Mesh.js"></script> 
+    <script src="js/EnvironmentMap.js"></script>
     <script src="js/mp3.js"></script>
     
-    <body onload="startup()">
+    <body onload="startup();">
         <canvas id="myGLCanvas" width="800" height="800" style="background-color:black"></canvas>
             <form id="input_form">
                 <fieldset>
