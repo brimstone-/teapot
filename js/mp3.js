@@ -72,7 +72,9 @@ function draw() {
 }
 
 //----------------------------------------------------------------------------------
-//Code to handle user interaction
+/**
+ * Code to handle user interaction
+ */
 var currentlyPressedKeys = {};
 
 function handleKeyDown(event) {

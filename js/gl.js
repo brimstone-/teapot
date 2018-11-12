@@ -87,7 +87,7 @@ function pushLightPosition() {
 
 //----------------------------------------------------------------------------------
 /**
- * Pops matrix or lightPosition onto respective stack
+ * Pops matrix or lightPosition from respective stack
  */
 function mvPopMatrix() {
   if (mvMatrixStack.length == 0) {

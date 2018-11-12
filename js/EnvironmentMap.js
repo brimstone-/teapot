@@ -1,3 +1,7 @@
+//----------------------------------------------------------------------------------
+/**
+ * Populate cube buffers with data
+ */
 function setupCubeBuffers() {
   // Create a buffer for the cube's vertices.
 
@@ -128,6 +132,7 @@ function setupBuffers() {
   setupCubeBuffers();
 }
 
+//----------------------------------------------------------------------------------
 /**
  * Draw a cube based on buffers.
  */

@@ -16,7 +16,7 @@ function asyncGetFile_Mesh(url) {
 
 //----------------------------------------------------------------------------------
 /**
- * Populate buffers with data
+ * Populate mesh buffers with data
  */
 function setupMesh(filename) {
   myMesh = new TriMesh();
