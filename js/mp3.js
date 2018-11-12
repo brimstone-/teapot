@@ -31,18 +31,18 @@ function draw() {
     // Draw mesh
     gl.useProgram(shaderProgramMesh);
 
-    setMatrixUniformsMesh();
-    setLightUniformsMesh(lightPosition,lAmbient,lDiffuse,lSpecular);
-    setMaterialUniformsMesh(shininess,kAmbient,kTerrainDiffuse,kSpecular);
+    setMatrixUniforms(shaderProgramMesh);
+    setLightUniforms(shaderProgramMesh,lightPosition,lAmbient,lDiffuse,lSpecular);
+    setMaterialUniforms(shaderProgramMesh,shininess,kAmbient,kTerrainDiffuse,kSpecular);
 
     myMesh.drawTriangles();
 
     // Draw cube
     gl.useProgram(shaderProgramCube);
 
-    setMatrixUniformsCube();
-    setLightUniformsCube(lightPosition,lAmbient,lDiffuse,lSpecular);
-    setMaterialUniformsCube(shininess,kAmbient,kTerrainDiffuse,kSpecular);
+    setMatrixUniforms(shaderProgramCube);
+    setLightUniforms(shaderProgramCube,lightPosition,lAmbient,lDiffuse,lSpecular);
+    setMaterialUniforms(shaderProgramCube,shininess,kAmbient,kTerrainDiffuse,kSpecular);
 
     drawCube();
 

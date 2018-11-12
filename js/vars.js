@@ -38,10 +38,8 @@ var viewPt = vec3.fromValues(0.0,0.0,0.0);
 
 //Light parameters
 /** @global Light position in VIEW coordinates */
-var lightPosition = [20,20,20];
-// rotate the light position so the lighting sort of visually makes sense in the context
-// of the cubemap I chose
-vec3.rotateY(lightPosition, lightPosition, vec3.fromValues(0,0,0), Math.PI);
+var lightPosition = [-20,20,-20]; // default
+//var lightPosition = [20,20,10]; // car
 /** @global The lightPosition stack for hierarchical modeling */
 var lightPositionStack = [];
 
@@ -56,8 +54,9 @@ var lSpecular =[0,0,0];
 /** @global Ambient material color/intensity for Phong reflection */
 var kAmbient = [1.0,1.0,1.0];
 /** @global Diffuse material color/intensity for Phong reflection */
-//var kTerrainDiffuse = [205.0/255.0,163.0/255.0,63.0/255.0];
-var kTerrainDiffuse = [50.0/255.0,230.0/255.0,255.0/255.0];
+//var kTerrainDiffuse = [205.0/255.0,163.0/255.0,63.0/255.0]; // yellow
+var kTerrainDiffuse = [50.0/255.0,230.0/255.0,255.0/255.0]; // blue
+//var kTerrainDiffuse = [144.0/255.0,0.0/255.0,32.0/255.0]; // red
 /** @global Specular material color/intensity for Phong reflection */
 var kSpecular = [0.0,0.0,0.0];
 /** @global Shininess exponent for Phong reflection */

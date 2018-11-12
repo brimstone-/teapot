@@ -153,7 +153,7 @@ function drawCube(){
   // Draw the cube.
 
   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, cubeTriIndexBuffer);
-  setMatrixUniformsCube();
+  setMatrixUniforms(shaderProgramCube);
   gl.drawElements(gl.TRIANGLES, 36, gl.UNSIGNED_SHORT, 0);
 }
 
@@ -197,7 +197,7 @@ function setupPromise(filename, face) {
 function setupTextures() {
 
   cubeMap = gl.createTexture();
-
+  
   var path = "textures/street";
 
   setupPromise(`${path}/posz.jpg`, 0);

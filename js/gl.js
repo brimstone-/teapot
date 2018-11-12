@@ -47,42 +47,27 @@ function isPowerOf2(value) {
 /**
  * Sends Modelview matrix to shader
  */
-function uploadModelViewMatrixToShaderCube() {
-  gl.uniformMatrix4fv(shaderProgramCube.mvMatrixUniform, false, mvMatrix);
-}
-
-function uploadModelViewMatrixToShaderMesh() {
-  gl.uniformMatrix4fv(shaderProgramMesh.mvMatrixUniform, false, mvMatrix);
+function uploadModelViewMatrixToShader(targetShader) {
+  gl.uniformMatrix4fv(targetShader.mvMatrixUniform, false, mvMatrix);
 }
 
 //-------------------------------------------------------------------------
 /**
  * Sends projection matrix to shader
  */
-function uploadProjectionMatrixToShaderCube() {
-  gl.uniformMatrix4fv(shaderProgramCube.pMatrixUniform, false, pMatrix);
-}
-
-function uploadProjectionMatrixToShaderMesh() {
-  gl.uniformMatrix4fv(shaderProgramMesh.pMatrixUniform, false, pMatrix);
+function uploadProjectionMatrixToShader(targetShader) {
+  gl.uniformMatrix4fv(targetShader.pMatrixUniform, false, pMatrix);
 }
 
 //-------------------------------------------------------------------------
 /**
  * Generates and sends the normal matrix to the shader
  */
-function uploadNormalMatrixToShaderMesh() {
+function uploadNormalMatrixToShader(targetShader) {
   mat3.fromMat4(nMatrix,mvMatrix);
   mat3.transpose(nMatrix,nMatrix);
   mat3.invert(nMatrix,nMatrix);
-  gl.uniformMatrix3fv(shaderProgramMesh.nMatrixUniform, false, nMatrix);
-}
-
-function uploadNormalMatrixToShaderCube() {
-  mat3.fromMat4(nMatrix,mvMatrix);
-  mat3.transpose(nMatrix,nMatrix);
-  mat3.invert(nMatrix,nMatrix);
-  gl.uniformMatrix3fv(shaderProgramCube.nMatrixUniform, false, nMatrix);
+  gl.uniformMatrix3fv(targetShader.nMatrixUniform, false, nMatrix);
 }
 
 //----------------------------------------------------------------------------------
@@ -122,16 +107,10 @@ function popLightPosition() {
 /**
  * Sends projection/modelview matrices to shader
  */
-function setMatrixUniformsCube() {
-  uploadModelViewMatrixToShaderCube();
-  uploadNormalMatrixToShaderCube();
-  uploadProjectionMatrixToShaderCube();
-}
-
-function setMatrixUniformsMesh() {
-  uploadModelViewMatrixToShaderMesh();
-  uploadNormalMatrixToShaderMesh();
-  uploadProjectionMatrixToShaderMesh();
+function setMatrixUniforms(targetShader) {
+  uploadModelViewMatrixToShader(targetShader);
+  uploadNormalMatrixToShader(targetShader);
+  uploadProjectionMatrixToShader(targetShader);
 }
 
 //-------------------------------------------------------------------------
@@ -142,18 +121,11 @@ function setMatrixUniformsMesh() {
  * @param {Float32Array} d Diffuse material color
  * @param {Float32Array} s Specular material color
  */
-function setMaterialUniformsCube(alpha,a,d,s) {
-  gl.uniform1f(shaderProgramCube.uniformShininessLoc, alpha);
-  gl.uniform3fv(shaderProgramCube.uniformAmbientMaterialColorLoc, a);
-  gl.uniform3fv(shaderProgramCube.uniformDiffuseMaterialColorLoc, d);
-  gl.uniform3fv(shaderProgramCube.uniformSpecularMaterialColorLoc, s);
-}
-
-function setMaterialUniformsMesh(alpha,a,d,s) {
-  gl.uniform1f(shaderProgramMesh.uniformShininessLoc, alpha);
-  gl.uniform3fv(shaderProgramMesh.uniformAmbientMaterialColorLoc, a);
-  gl.uniform3fv(shaderProgramMesh.uniformDiffuseMaterialColorLoc, d);
-  gl.uniform3fv(shaderProgramMesh.uniformSpecularMaterialColorLoc, s);
+function setMaterialUniforms(targetShader,alpha,a,d,s) {
+  gl.uniform1f(targetShader.uniformShininessLoc, alpha);
+  gl.uniform3fv(targetShader.uniformAmbientMaterialColorLoc, a);
+  gl.uniform3fv(targetShader.uniformDiffuseMaterialColorLoc, d);
+  gl.uniform3fv(targetShader.uniformSpecularMaterialColorLoc, s);
 }
 
 //-------------------------------------------------------------------------
@@ -164,16 +136,9 @@ function setMaterialUniformsMesh(alpha,a,d,s) {
  * @param {Float32Array} d Diffuse light strength
  * @param {Float32Array} s Specular light strength
  */
-function setLightUniformsCube(loc,a,d,s) {
-  gl.uniform3fv(shaderProgramCube.uniformLightPositionLoc, loc);
-  gl.uniform3fv(shaderProgramCube.uniformAmbientLightColorLoc, a);
-  gl.uniform3fv(shaderProgramCube.uniformDiffuseLightColorLoc, d);
-  gl.uniform3fv(shaderProgramCube.uniformSpecularLightColorLoc, s);
-}
-
-function setLightUniformsMesh(loc,a,d,s) {
-  gl.uniform3fv(shaderProgramMesh.uniformLightPositionLoc, loc);
-  gl.uniform3fv(shaderProgramMesh.uniformAmbientLightColorLoc, a);
-  gl.uniform3fv(shaderProgramMesh.uniformDiffuseLightColorLoc, d);
-  gl.uniform3fv(shaderProgramMesh.uniformSpecularLightColorLoc, s);
+function setLightUniforms(targetShader,loc,a,d,s) {
+  gl.uniform3fv(targetShader.uniformLightPositionLoc, loc);
+  gl.uniform3fv(targetShader.uniformAmbientLightColorLoc, a);
+  gl.uniform3fv(targetShader.uniformDiffuseLightColorLoc, d);
+  gl.uniform3fv(targetShader.uniformSpecularLightColorLoc, s);
 }
