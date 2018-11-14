@@ -11,10 +11,8 @@ function draw() {
                    gl.viewportWidth / gl.viewportHeight,
                    0.1, 500.0);
 
-  // We want to look down -z, so create a lookat point in that direction
-  //vec3.add(viewPt, eyePt, viewDir);
-
   // View Rotation
+  // Push values so that things don't rotate every draw unless keyboard is modifying values
   pushEyePosition();
   pushUp();
 
@@ -23,9 +21,10 @@ function draw() {
   vec3.transformQuat(eyePt,eyePt,viewQuat);
   vec3.transformQuat(up,up,viewQuat);
 
-  // Then generate the lookat matrix and initialize the view matrix to that view
+  // We want to look down -z, so create a lookat point in that direction
   mat4.lookAt(vMatrix,eyePt,viewPt,up);
 
+  // Pop values so that things don't rotate every draw unless keyboard is modifying values
   popEyePosition();
   popUp();
 
@@ -49,7 +48,7 @@ function draw() {
 
     drawCube();
 
-    // Teapot Rotation
+    // Mesh Rotation
     var modelQuat = quat.create();
     var transformMatrix = mat4.create();
     quat.fromEuler(modelQuat, -rotX, -rotY, 0.0);
@@ -149,7 +148,6 @@ function handleKeyDown(event) {
 }
 
 function handleKeyUp(event) {
-  //console.log("Key up ", event.key, " code ", event.code);
   currentlyPressedKeys[event.key] = false;
 }
 
@@ -158,14 +156,13 @@ function handleKeyUp(event) {
   * Update any model transformations
   */
 function animate() {
-  //console.log(eulerX, " ", eulerY, " ", eulerZ);
   days=days+0.5;
+
   document.getElementById("eX").value=eulerX;
   document.getElementById("eY").value=eulerY;
 
   document.getElementById("rX").value=rotX;
   document.getElementById("rY").value=rotY;
-  //document.getElementById("eZ").value=eyePt[2];
 }
 
 //----------------------------------------------------------------------------------

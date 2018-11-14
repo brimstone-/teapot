@@ -41,14 +41,13 @@ var myMesh;
 /** @global Location of the camera in world coordinates */
 // var eyePt = vec3.fromValues(0.0,2.5,9.0);
 var eyePt = vec3.fromValues(0.0,2.0,10.0);
-
+/** @global The eyePt stack for hierarchical modeling */
 var eyePtStack = [];
-
 /** @global Direction of the view in world coordinates */
 var viewDir = vec3.fromValues(0.0,0.0,-1.0);
 /** @global Up vector for view matrix creation, in world coordinates */
 var up = vec3.fromValues(0.0,1.0,0.0);
-
+/** @global The up vector stack for hierarchical modeling */
 var upStack = [];
 /** @global Location of a point along viewDir in world coordinates */
 var viewPt = vec3.fromValues(0.0,1.0,0.0);
@@ -60,7 +59,6 @@ var lightPosition = [20,20,20];
 //var lightPosition = [20,20,10]; // car
 /** @global The lightPosition stack for hierarchical modeling */
 var lightPositionStack = [];
-
 /** @global Ambient light color/intensity for Phong reflection */
 var lAmbient = [0,0,0];
 /** @global Diffuse light color/intensity for Phong reflection */
@@ -85,12 +83,9 @@ var kEdgeBlack = [0.0,0.0,0.0];
 /** @global Edge color for wireframe rendering */
 var kEdgeWhite = [1.0,1.0,1.0];
 
-
 //Model parameters
-//var eulerY=180;
 var eulerX = 0;
 var eulerY = 0;
-
 var rotX = 0;
 var rotY = 0;
 
@@ -98,8 +93,6 @@ var rotY = 0;
 var vertexPositionBuffer;
 
 var days=0;
-var yAngle = 0.0;
-// var xAngle = 0.0;
 
 // Create a place to store the textures
 var cubeImage0;

@@ -118,10 +118,8 @@
         uniform mat4 uPMatrix;
         uniform mat3 uNMatrix;
 
-        // Inverse matrices
-        uniform mat4 uMVMatrixInverse;
+        // Inverse matrix
         uniform mat3 uNMatrixInverse;
-        uniform mat4 uVMatrixInverse;
 
         varying vec3 reflectionVectorWorld;
         
@@ -217,7 +215,6 @@
                     <emph>Euler Y:</emph> <input type="number" id="eY" value="0"> Keys A and D <br><br>
                     <emph>Rotation X</emph> <input type="number" id="rX" value="0" > Keys ArrowUp and ArrowDown <br><br>
                     <emph>Rotation Y</emph> <input type="number" id="rY" value="0" > Keys ArrowRight and ArrowLeft <br><br>
-                    <!-- <emph>Eye Z position:</emph> <input type="number" id="eZ" value="0" > Keys ArrowUp and ArrowDown -->
                 </fieldset>
             </form>
         </div>

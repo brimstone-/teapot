@@ -53,24 +53,6 @@ function uploadModelViewMatrixToShader(targetShader) {
 
 //-------------------------------------------------------------------------
 /**
- * Sends inverse Modelview matrix to shader
- */
-function uploadModelViewMatrixInverseToShader(targetShader) {
-  mat4.invert(mvMatrixInverse,mvMatrix);
-  gl.uniformMatrix4fv(targetShader.mvMatrixInverseUniform, false, mvMatrixInverse);
-}
-
-//-------------------------------------------------------------------------
-/**
- * Sends inverse Modelview matrix to shader
- */
-function uploadViewMatrixInverseToShader(targetShader) {
-  mat4.invert(vMatrixInverse,vMatrix);
-  gl.uniformMatrix4fv(targetShader.vMatrixInverseUniform, false, vMatrixInverse);
-}
-
-//-------------------------------------------------------------------------
-/**
  * Sends projection matrix to shader
  */
 function uploadProjectionMatrixToShader(targetShader) {
@@ -99,7 +81,7 @@ function uploadNormalMatrixInverseToShader(targetShader) {
 
 //----------------------------------------------------------------------------------
 /**
- * Pushes matrix or lightPosition onto respective stack
+ * Pushes object onto respective stack
  */
 function mvPushMatrix() {
   var copy = mat4.clone(mvMatrix);
@@ -123,7 +105,7 @@ function pushUp() {
 
 //----------------------------------------------------------------------------------
 /**
- * Pops matrix or lightPosition from respective stack
+ * Pops object from respective stack
  */
 function mvPopMatrix() {
   if (mvMatrixStack.length == 0) {
@@ -159,8 +141,6 @@ function popUp() {
  */
 function setMatrixUniforms(targetShader) {
   uploadModelViewMatrixToShader(targetShader);
-  uploadModelViewMatrixInverseToShader(targetShader);
-  uploadViewMatrixInverseToShader(targetShader);
   uploadNormalMatrixInverseToShader(targetShader);
   uploadNormalMatrixToShader(targetShader);
   uploadProjectionMatrixToShader(targetShader);

@@ -151,9 +151,7 @@ function setupShadersReflection() {
 
   shaderProgramReflection.mvMatrixUniform = gl.getUniformLocation(shaderProgramReflection, "uMVMatrix");
 
-  shaderProgramReflection.mvMatrixInverseUniform = gl.getUniformLocation(shaderProgramReflection, "uMVMatrixInverse");
   shaderProgramReflection.nMatrixInverseUniform = gl.getUniformLocation(shaderProgramReflection, "uNMatrixInverse");
-  shaderProgramReflection.vMatrixInverseUniform = gl.getUniformLocation(shaderProgramReflection, "uVMatrixInverse");
 
   shaderProgramReflection.pMatrixUniform = gl.getUniformLocation(shaderProgramReflection, "uPMatrix");
   shaderProgramReflection.nMatrixUniform = gl.getUniformLocation(shaderProgramReflection, "uNMatrix");
