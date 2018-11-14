@@ -36,6 +36,7 @@ function draw() {
 
     // Apply rotations to light and mvMatrix
     vec3.rotateY(lightPosition, lightPosition, vec3.fromValues(0,0,0), degToRad(eulerY));
+    vec3.rotateY(lightPosition, lightPosition, vec3.fromValues(0,0,0), degToRad(-lightRot));
 
     mat4.multiply(mvMatrix,vMatrix,mvMatrix);
 
@@ -126,6 +127,14 @@ function handleKeyDown(event) {
     eulerY -= 1;
   }
 
+  if (currentlyPressedKeys["q"]) {
+    // key Q
+    lightRot += 1;
+  } else if (currentlyPressedKeys["e"]) {
+    // key E
+    lightRot -= 1;
+  }
+
   if (currentlyPressedKeys["ArrowUp"]) {
     // Up cursor key
     event.preventDefault();
@@ -145,6 +154,14 @@ function handleKeyDown(event) {
     event.preventDefault();
     rotY -= 1;
   }
+
+  if (currentlyPressedKeys["r"]) {
+    // key R
+    eulerX = 0;
+    eulerY = 0
+    rotX = 0;
+    rotY = 0;
+  }
 }
 
 function handleKeyUp(event) {
@@ -163,6 +180,8 @@ function animate() {
 
   document.getElementById("rX").value=rotX;
   document.getElementById("rY").value=rotY;
+
+  document.getElementById("lr").value=lightRot;
 }
 
 //----------------------------------------------------------------------------------
