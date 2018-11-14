@@ -203,7 +203,7 @@ function setupTextures() {
 
   cubeMap = gl.createTexture();
   
-  var path = "textures/street";
+  var path = "textures/city1-jpg";
 
   setupPromise(`${path}/posz.jpg`, 0);
   setupPromise(`${path}/negz.jpg`, 1);

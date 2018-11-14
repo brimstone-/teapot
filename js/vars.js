@@ -7,17 +7,29 @@ var canvas;
 /** @global A simple GLSL shader program */
 var shaderProgram;
 
+/** @global The Model matrix */
+var mMatrix = mat4.create();
+
 /** @global The Modelview matrix */
 var mvMatrix = mat4.create();
 
+/** @global The inverse Modelview matrix */
+var mvMatrixInverse = mat4.create();
+
 /** @global The View matrix */
 var vMatrix = mat4.create();
+
+/** @global The Inverse View Matrix */
+var vMatrixInverse = mat4.create();
 
 /** @global The Projection matrix */
 var pMatrix = mat4.create();
 
 /** @global The Normal matrix */
 var nMatrix = mat3.create();
+
+/** @global The Inverse Normal matrix */
+var nMatrixInverse = mat3.create();
 
 /** @global The matrix stack for hierarchical modeling */
 var mvMatrixStack = [];
@@ -29,16 +41,22 @@ var myMesh;
 /** @global Location of the camera in world coordinates */
 // var eyePt = vec3.fromValues(0.0,2.5,9.0);
 var eyePt = vec3.fromValues(0.0,2.0,10.0);
+
+var eyePtStack = [];
+
 /** @global Direction of the view in world coordinates */
 var viewDir = vec3.fromValues(0.0,0.0,-1.0);
 /** @global Up vector for view matrix creation, in world coordinates */
 var up = vec3.fromValues(0.0,1.0,0.0);
+
+var upStack = [];
 /** @global Location of a point along viewDir in world coordinates */
-var viewPt = vec3.fromValues(0.0,0.0,0.0);
+var viewPt = vec3.fromValues(0.0,1.0,0.0);
 
 //Light parameters
 /** @global Light position in VIEW coordinates */
-var lightPosition = [-20,20,-20]; // default
+var lightPosition = [20,20,20];
+//var lightPosition = [-20,20,-20]; // street
 //var lightPosition = [20,20,10]; // car
 /** @global The lightPosition stack for hierarchical modeling */
 var lightPositionStack = [];
@@ -54,9 +72,10 @@ var lSpecular =[0,0,0];
 /** @global Ambient material color/intensity for Phong reflection */
 var kAmbient = [1.0,1.0,1.0];
 /** @global Diffuse material color/intensity for Phong reflection */
-//var kTerrainDiffuse = [205.0/255.0,163.0/255.0,63.0/255.0]; // yellow
-var kTerrainDiffuse = [50.0/255.0,230.0/255.0,255.0/255.0]; // blue
+var kTerrainDiffuse = [205.0/255.0,163.0/255.0,63.0/255.0]; // yellow
+//var kTerrainDiffuse = [50.0/255.0,230.0/255.0,255.0/255.0]; // blue
 //var kTerrainDiffuse = [144.0/255.0,0.0/255.0,32.0/255.0]; // red
+//var kTerrainDiffuse = [192.0/255.0,192.0/255.0,192.0/255.0]; // silver
 /** @global Specular material color/intensity for Phong reflection */
 var kSpecular = [0.0,0.0,0.0];
 /** @global Shininess exponent for Phong reflection */
@@ -68,7 +87,12 @@ var kEdgeWhite = [1.0,1.0,1.0];
 
 
 //Model parameters
-var eulerY=180;
+//var eulerY=180;
+var eulerX = 0;
+var eulerY = 0;
+
+var rotX = 0;
+var rotY = 0;
 
 // cubemap
 var vertexPositionBuffer;

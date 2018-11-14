@@ -12,10 +12,22 @@ function draw() {
                    0.1, 500.0);
 
   // We want to look down -z, so create a lookat point in that direction
-  vec3.add(viewPt, eyePt, viewDir);
+  //vec3.add(viewPt, eyePt, viewDir);
+
+  // View Rotation
+  pushEyePosition();
+  pushUp();
+
+  var viewQuat = quat.create();
+  quat.fromEuler(viewQuat, -eulerX, -eulerY, 0.0);
+  vec3.transformQuat(eyePt,eyePt,viewQuat);
+  vec3.transformQuat(up,up,viewQuat);
 
   // Then generate the lookat matrix and initialize the view matrix to that view
   mat4.lookAt(vMatrix,eyePt,viewPt,up);
+
+  popEyePosition();
+  popUp();
 
   // Prevent early drawing of myMesh or cubemap
   if (myMesh.loaded() && (texturesLoaded == 6)) {
@@ -23,19 +35,10 @@ function draw() {
     mvPushMatrix();
     pushLightPosition();
 
-    // Apply rotations
-    mat4.rotateY(mvMatrix, mvMatrix, degToRad(eulerY));
+    // Apply rotations to light and mvMatrix
     vec3.rotateY(lightPosition, lightPosition, vec3.fromValues(0,0,0), degToRad(eulerY));
+
     mat4.multiply(mvMatrix,vMatrix,mvMatrix);
-
-    // Draw mesh
-    gl.useProgram(shaderProgramMesh);
-
-    setMatrixUniforms(shaderProgramMesh);
-    setLightUniforms(shaderProgramMesh,lightPosition,lAmbient,lDiffuse,lSpecular);
-    setMaterialUniforms(shaderProgramMesh,shininess,kAmbient,kTerrainDiffuse,kSpecular);
-
-    myMesh.drawTriangles();
 
     // Draw cube
     gl.useProgram(shaderProgramCube);
@@ -45,6 +48,34 @@ function draw() {
     setMaterialUniforms(shaderProgramCube,shininess,kAmbient,kTerrainDiffuse,kSpecular);
 
     drawCube();
+
+    // Teapot Rotation
+    var modelQuat = quat.create();
+    var transformMatrix = mat4.create();
+    quat.fromEuler(modelQuat, -rotX, -rotY, 0.0);
+    mat4.fromQuat(transformMatrix, modelQuat);
+    mat4.multiply(mvMatrix, mvMatrix, transformMatrix);
+
+    // Draw mesh
+    if(document.getElementById("reflect-off").checked) {
+      gl.useProgram(shaderProgramMesh);
+
+      setMatrixUniforms(shaderProgramMesh);
+      setLightUniforms(shaderProgramMesh,lightPosition,lAmbient,lDiffuse,lSpecular);
+      setMaterialUniforms(shaderProgramMesh,shininess,kAmbient,kTerrainDiffuse,kSpecular);
+
+      myMesh.drawTriangles();
+    }
+
+    if(document.getElementById("reflect-on").checked) {
+      gl.useProgram(shaderProgramReflection);
+
+      setMatrixUniforms(shaderProgramReflection);
+      setLightUniforms(shaderProgramReflection,lightPosition,lAmbient,lDiffuse,lSpecular);
+      setMaterialUniforms(shaderProgramReflection,shininess,kAmbient,kTerrainDiffuse,kSpecular);
+
+      myMesh.drawTriangles();
+    }
 
     // Pop values so that things don't rotate every draw unless keyboard is modifying values
     mvPopMatrix();
@@ -59,8 +90,7 @@ function draw() {
  function startup() {
   canvas = document.getElementById("myGLCanvas");
   gl = createGLContext(canvas);
-  setupShadersMesh();
-  setupShadersCube();
+  setupShaders();
   setupBuffers();
   setupTextures();
   setupMesh("obj/teapot.obj");
@@ -80,6 +110,15 @@ var currentlyPressedKeys = {};
 function handleKeyDown(event) {
   //console.log("Key down ", event.key, " code ", event.code);
   currentlyPressedKeys[event.key] = true;
+
+  if (currentlyPressedKeys["w"]) {
+    // key W
+    eulerX += 1;
+  } else if (currentlyPressedKeys["s"]) {
+    // key S
+    eulerX -= 1;
+  }
+
   if (currentlyPressedKeys["a"]) {
     // key A
     eulerY += 1;
@@ -88,14 +127,24 @@ function handleKeyDown(event) {
     eulerY -= 1;
   }
 
-  if (currentlyPressedKeys["ArrowUp"]){
+  if (currentlyPressedKeys["ArrowUp"]) {
     // Up cursor key
     event.preventDefault();
-    eyePt[2] -= 0.1;
-  } else if (currentlyPressedKeys["ArrowDown"]){
+    rotX += 1;
+  } else if (currentlyPressedKeys["ArrowDown"]) {
     event.preventDefault();
     // Down cursor key
-    eyePt[2] += 0.1;
+    rotX -= 1;
+  }
+
+  if (currentlyPressedKeys["ArrowRight"]) {
+    // Right cursor key
+    event.preventDefault();
+    rotY += 1;
+  } else if (currentlyPressedKeys["ArrowLeft"]) {
+    // Left cursor key
+    event.preventDefault();
+    rotY -= 1;
   }
 }
 
@@ -111,8 +160,12 @@ function handleKeyUp(event) {
 function animate() {
   //console.log(eulerX, " ", eulerY, " ", eulerZ);
   days=days+0.5;
+  document.getElementById("eX").value=eulerX;
   document.getElementById("eY").value=eulerY;
-  document.getElementById("eZ").value=eyePt[2];
+
+  document.getElementById("rX").value=rotX;
+  document.getElementById("rY").value=rotY;
+  //document.getElementById("eZ").value=eyePt[2];
 }
 
 //----------------------------------------------------------------------------------

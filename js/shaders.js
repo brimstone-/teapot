@@ -44,6 +44,16 @@ function loadShaderFromDOM(id) {
 
 //----------------------------------------------------------------------------------
 /**
+ * Setup the shaderes
+ */
+function setupShaders() {
+  setupShadersMesh();
+  setupShadersCube();
+  setupShadersReflection();
+}
+
+//----------------------------------------------------------------------------------
+/**
  * Setup the fragment and vertex shaders for the mesh model
  */
 function setupShadersMesh() {
@@ -112,4 +122,49 @@ function setupShadersCube() {
   shaderProgramCube.nMatrixUniform = gl.getUniformLocation(shaderProgramCube, "uNMatrix");
 
   console.log("Cube shaders succesfully set up.");
+}
+
+//----------------------------------------------------------------------------------
+/**
+ * Setup the fragment and vertex shaders for the cube with reflection
+ */
+function setupShadersReflection() {
+  vertexShader = loadShaderFromDOM("reflection-vs");
+  fragmentShader = loadShaderFromDOM("reflection-fs");
+
+  shaderProgramReflection = gl.createProgram();
+  gl.attachShader(shaderProgramReflection, vertexShader);
+  gl.attachShader(shaderProgramReflection, fragmentShader);
+  gl.linkProgram(shaderProgramReflection);
+
+  if (!gl.getProgramParameter(shaderProgramReflection, gl.LINK_STATUS)) {
+    alert("Failed to setup reflection shaders");
+  }
+
+  gl.useProgram(shaderProgramReflection);
+
+  shaderProgramReflection.vertexPositionAttribute = gl.getAttribLocation(shaderProgramReflection, "aVertexPosition");
+  gl.enableVertexAttribArray(shaderProgramReflection.vertexPositionAttribute);
+
+  shaderProgramReflection.vertexNormalAttribute = gl.getAttribLocation(shaderProgramReflection, "aVertexNormal");
+  gl.enableVertexAttribArray(shaderProgramReflection.vertexNormalAttribute);
+
+  shaderProgramReflection.mvMatrixUniform = gl.getUniformLocation(shaderProgramReflection, "uMVMatrix");
+
+  shaderProgramReflection.mvMatrixInverseUniform = gl.getUniformLocation(shaderProgramReflection, "uMVMatrixInverse");
+  shaderProgramReflection.nMatrixInverseUniform = gl.getUniformLocation(shaderProgramReflection, "uNMatrixInverse");
+  shaderProgramReflection.vMatrixInverseUniform = gl.getUniformLocation(shaderProgramReflection, "uVMatrixInverse");
+
+  shaderProgramReflection.pMatrixUniform = gl.getUniformLocation(shaderProgramReflection, "uPMatrix");
+  shaderProgramReflection.nMatrixUniform = gl.getUniformLocation(shaderProgramReflection, "uNMatrix");
+  shaderProgramReflection.uniformLightPositionLoc = gl.getUniformLocation(shaderProgramReflection, "uLightPosition");
+  shaderProgramReflection.uniformAmbientLightColorLoc = gl.getUniformLocation(shaderProgramReflection, "uAmbientLightColor");
+  shaderProgramReflection.uniformDiffuseLightColorLoc = gl.getUniformLocation(shaderProgramReflection, "uDiffuseLightColor");
+  shaderProgramReflection.uniformSpecularLightColorLoc = gl.getUniformLocation(shaderProgramReflection, "uSpecularLightColor");
+  shaderProgramReflection.uniformShininessLoc = gl.getUniformLocation(shaderProgramReflection, "uShininess");
+  shaderProgramReflection.uniformAmbientMaterialColorLoc = gl.getUniformLocation(shaderProgramReflection, "uKAmbient");
+  shaderProgramReflection.uniformDiffuseMaterialColorLoc = gl.getUniformLocation(shaderProgramReflection, "uKDiffuse");
+  shaderProgramReflection.uniformSpecularMaterialColorLoc = gl.getUniformLocation(shaderProgramReflection, "uKSpecular");
+
+  console.log("Reflection shaders succesfully set up.");
 }

@@ -53,6 +53,24 @@ function uploadModelViewMatrixToShader(targetShader) {
 
 //-------------------------------------------------------------------------
 /**
+ * Sends inverse Modelview matrix to shader
+ */
+function uploadModelViewMatrixInverseToShader(targetShader) {
+  mat4.invert(mvMatrixInverse,mvMatrix);
+  gl.uniformMatrix4fv(targetShader.mvMatrixInverseUniform, false, mvMatrixInverse);
+}
+
+//-------------------------------------------------------------------------
+/**
+ * Sends inverse Modelview matrix to shader
+ */
+function uploadViewMatrixInverseToShader(targetShader) {
+  mat4.invert(vMatrixInverse,vMatrix);
+  gl.uniformMatrix4fv(targetShader.vMatrixInverseUniform, false, vMatrixInverse);
+}
+
+//-------------------------------------------------------------------------
+/**
  * Sends projection matrix to shader
  */
 function uploadProjectionMatrixToShader(targetShader) {
@@ -70,6 +88,15 @@ function uploadNormalMatrixToShader(targetShader) {
   gl.uniformMatrix3fv(targetShader.nMatrixUniform, false, nMatrix);
 }
 
+//-------------------------------------------------------------------------
+/**
+ * Generates and sends the normal matrix to the shader
+ */
+function uploadNormalMatrixInverseToShader(targetShader) {
+  mat3.invert(nMatrixInverse,nMatrix);
+  gl.uniformMatrix3fv(targetShader.nMatrixInverseUniform, false, nMatrixInverse);
+}
+
 //----------------------------------------------------------------------------------
 /**
  * Pushes matrix or lightPosition onto respective stack
@@ -84,6 +111,15 @@ function pushLightPosition() {
   lightPositionStack.push(copy);
 }
 
+function pushEyePosition() {
+  var copy = vec3.clone(eyePt);
+  eyePtStack.push(copy);
+}
+
+function pushUp() {
+  var copy = vec3.clone(up);
+  upStack.push(copy);
+}
 
 //----------------------------------------------------------------------------------
 /**
@@ -103,12 +139,29 @@ function popLightPosition() {
   lightPosition = lightPositionStack.pop();
 }
 
+function popEyePosition() {
+  if (eyePtStack.length == 0) {
+    throw "Invalid popEyePosition!";
+  }
+  eyePt = eyePtStack.pop();
+}
+
+function popUp() {
+  if (upStack.length == 0) {
+    throw "Invalid popUp!";
+  }
+  up = upStack.pop();
+}
+
 //----------------------------------------------------------------------------------
 /**
  * Sends projection/modelview matrices to shader
  */
 function setMatrixUniforms(targetShader) {
   uploadModelViewMatrixToShader(targetShader);
+  uploadModelViewMatrixInverseToShader(targetShader);
+  uploadViewMatrixInverseToShader(targetShader);
+  uploadNormalMatrixInverseToShader(targetShader);
   uploadNormalMatrixToShader(targetShader);
   uploadProjectionMatrixToShader(targetShader);
 }
