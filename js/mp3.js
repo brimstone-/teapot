@@ -161,6 +161,7 @@ function handleKeyDown(event) {
     eulerY = 0
     rotX = 0;
     rotY = 0;
+    lightRot = 0;
   }
 }
 
