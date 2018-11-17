@@ -89,7 +89,7 @@ var eulerY = 0;
 var rotX = 0;
 var rotY = 0;
 
-var lightRot = 0;
+// var lightRot = 0;
 
 // cubemap
 var vertexPositionBuffer;
